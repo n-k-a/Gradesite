@@ -1,0 +1,168 @@
+<?php
+session_start();
+ $dbhost = "mysql.cms.gre.ac.uk";
+ $dbuser = "na8363c";
+ $dbpass = "na8363c";
+ $db = "mdb_na8363c";
+// Create connection
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass,$db);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+if($_SERVER['REQUEST_METHOD'] == 'POST') // if form is submitted...
+  {
+echo "Connected successfully";
+// $reviewerID = $_SESSION['login_user'];
+// $moduleGroup=$_SESSION['groupnum'];
+// $memberID = $_POST['rmemberID'];
+// $rating = $_POST['rating'];
+// $comment = $_POST['comment'];
+$reviewerID = mysqli_real_escape_string($conn,$_POST['passUserID']);
+//$moduleGroup=mysqli_real_escape_string($conn,$_SESSION['groupnum']);
+$moduleGroup=mysqli_real_escape_string($conn,$_POST['passGroup']);
+$memberID = mysqli_real_escape_string($conn,$_POST['rmemberID']);
+$rating = mysqli_real_escape_string($conn,$_POST['rating']);
+$comment = mysqli_real_escape_string($conn,$_POST['comment']);
+echo $reviewerID;
+echo $smoduleGroup;
+//Validate first if content is there
+if(empty($comment) || empty($memberID))
+{
+echo " Please enter your comment";
+exit();
+} 
+//looks for if there's a record that already exists for this member and the reviewer
+	$sql = "SELECT * FROM `PeerGrades` WHERE `StudentID`= $memberID AND `MemberReviewerID` = $reviewerID";
+$result = mysqli_query($conn,$sql);
+$chkcount = mysqli_num_rows($result);
+$reviewchk = mysqli_fetch_assoc($result);
+//checks if the review was a final submission
+$subchk  = $reviewchk['Submitted'];
+//for selecting the save function
+if(isset($_POST['suspend']))
+{
+	
+//if there's no preexisting review, create a new one with the submitted data
+if ($chkcount == 0)
+ {
+	$sqli ="INSERT INTO `PeerGrades` (StudentID, moduleGroup, MemberReviewerID, rating, MemberTXT, Submitted) 
+	VALUES('$memberID','$moduleGroup','$reviewerID','$rating','$comment', 0)";
+		if(mysqli_query($conn, $sqli))
+	{
+    echo "Records inserted successfully for creation.";
+}
+else{
+	echo "failed to save review through creation";
+}
+ }
+ //if there is an existing review with an existing submitted bool check
+	else if($chkcount == 1 && $subchk !=null )
+{
+	//if it hasn't been submitted, it updates the review text and rating
+	if ($subchk == 0){
+	$sqli ="UPDATE PeerGrades SET `rating`= '$rating', `MemberTXT` = '$comment' WHERE `MemberReviewerID` = '$reviewerID'"; 
+
+		if(mysqli_query($conn, $sqli))
+	{
+    echo "Records inserted successfully for update.";
+}
+else{
+	echo "failed to save review through update";
+}
+	}
+	else{
+		echo "this review has already been submitted";
+	}
+	
+}
+else{
+	echo "this review has already been submitted";
+}
+}
+
+
+//finalised review submission
+else if (isset($_POST['submit']))
+{
+	//if there was no review prior to this submission, send this new one as finalised
+	if ($chkcount == 0)
+ {
+	 //main difference is that the submitted column has an entry of 1
+	$sqli ="INSERT INTO `PeerGrades` (StudentID, moduleGroup, MemberReviewerID, rating, MemberTXT, Submitted) 
+	VALUES('$memberID','$moduleGroup','$reviewerID','$rating','$comment', 1)";
+		if(mysqli_query($conn, $sqli))
+	{
+    echo "Records inserted successfully for creation. Review has been submitted";
+}
+else{
+	echo "failed to save review through creation, review has not been submitted";
+}	
+}
+{
+	//if it hasn't been submitted but was saved, it updates the review text and rating before being submitted
+	if ($subchk == 0){
+	$sqli ="UPDATE PeerGrades SET `rating`= '$rating', `MemberTXT` = '$comment', `Submitted` = 1 WHERE `MemberReviewerID` = '$reviewerID' AND `StudentID` = '$memberID'"; 
+
+		if(mysqli_query($conn, $sqli))
+	{
+    echo "Review updated and submitted";
+}
+else{
+	echo "failed to send review";
+}
+	}
+	else{
+		echo "this review has already been submitted";
+	}
+	
+}
+}
+	 header( "refresh:3;url=".$_SERVER['HTTP_REFERER'] );
+
+}
+function img(){
+	if ( !($_FILES['userFile']['type']) ) {
+   die('<p>No image submitted</p></body></html>');
+}
+// Validate uploaded image file
+if ( !preg_match( '/gif|png|x-png|jpeg/', $_FILES['userFile']['type']) ) 
+{
+die('<p>Only browser compatible images allowed</p></body></html>');
+}
+
+else if ( $_FILES['userFile']['size'] > 16384 ) 
+{
+die('<p>Sorry file too large</p></body></html>');
+// Connect to database
+}
+else if ( !($conn = mysqli_connect($dbhost, $dbuser, $dbpass, $db)) ) {
+die('<p>Error connecting to database</p></body></html>');
+// Copy image file into a variable
+}
+else if ( !($handle = fopen ($_FILES['userFile']['tmp_name'], "r")) ) 
+{
+die('<p>Error opening temp file</p></body></html>');
+} 
+else if ( !($image = fread ($handle, filesize($_FILES['userFile']['tmp_name']))) ) 
+{
+die('<p>Error reading temp file</p></body></html>');
+} 
+else 
+{
+fclose ($handle);
+
+// Commit image to the database
+$image = mysqli_real_escape_string($conn, $image);
+   $query = 'INSERT INTO image (type,name,img) VALUES ("' . $_FILES['userFile']['type'] . '","' . $_FILES['userFile']['name']  . '","' . $image . '")';
+   if ( !(mysqli_query($conn, $query)) ) {
+die('<p>Error writing image to database</p></body></html>');
+}
+else {
+die('<p>Image successfully copied to database</p></body></html>');
+}
+}
+
+}
+?>

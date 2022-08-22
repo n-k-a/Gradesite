@@ -1,0 +1,39 @@
+<?php
+include('Upload_action.php');
+session_start();
+//session_regenerate_id();
+if($_SESSION['login_user'] == null)
+{
+			header( "refresh;url=Login_form.html" );
+			    die();
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Peer Review</title>
+   <link rel="stylesheet" type="text/css" href="Gradesite.css">
+</head>
+<body>
+<div id="container"> 
+<h1>Review page for user <?php echo $_SESSION['login_user'];?></h1>
+<hr></hr>
+<nav>
+<ul>
+<li>Null</li>
+</ul>
+</nav>
+    <div id="content">
+<!--  <form action="Register_form.php" method="POST"> -->
+<!--<form action="upload_action.php" method="post" enctype="multipart/form-data"> -->
+
+</div>
+<hr></hr>
+<div id="footer">
+</div>
+</div>
+
+</body>
+
+
+</html>

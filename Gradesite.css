@@ -1,0 +1,152 @@
+/* Information for the captcha used for login/register from allwebco */
+.capbox {
+	background-color: #92D433;
+	border: #B3E272 0px solid;
+	border-width: 0px 12px 0px 0px;
+	display: inline-block;
+	*display: inline; zoom: 1;
+	padding: 8px 40px 8px 8px;
+	}
+
+.capbox-inner {
+	font: bold 11px arial, sans-serif;
+	color: #000000;
+	background-color: #DBF3BA;
+	margin: 5px auto 0px auto;
+	padding: 3px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	}
+
+#CaptchaDiv {
+	font: bold 17px verdana, arial, sans-serif;
+	font-style: italic;
+	color: #000000;
+	background-color: #FFFFFF;
+	padding: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	}
+
+#CaptchaInput { margin: 1px 0px 1px 0px; width: 135px; }
+
+
+h1{
+ font-weight:bold;
+ font-size:24px;
+ color:#000000
+}
+/* Information for the captcha used for login/register from allwebco */
+
+
+body {
+	background-color:#FFFFFF;
+	background-image: linear-gradient(cyan, white, cyan);
+	 background-size: 100%;
+	  background-repeat: no-repeat;
+	   background-size: cover;	font-family: Tahoma;	
+	padding:0;
+   height:100%;
+	min-height: 100vh;
+	
+}
+p {
+    padding: 0cm 6cm 0cm 6cm;
+}
+.verify{
+	float:center;
+	/* padding-left: 10cm; */
+	
+}
+.manage{
+	float:center;
+	padding-left: 10cm;
+	
+}
+
+.pagination{
+	  display: block;
+  color: white;
+  text-align: center;
+	  display: inline;
+
+}
+#container{
+		background-color:#FFFFFF;
+
+
+}
+#content{
+		background-color:#FFFFFF;
+	
+}
+hr { 
+    display: block;
+    margin-before: 0.5em;
+    margin-after: 0.5em;
+    margin-start: auto;
+    margin-end: auto;
+    overflow: hidden;
+    border-style: inset;
+    border-width: 1px;
+}
+nav{
+	float:left;
+	 border-right:  solid 0.1px grey;
+  border-bottom:  solid 0.1px grey;
+    border-top:  solid 0.1px grey;
+
+}
+
+#footer{
+	
+	    /* clear: both; */
+    /* margin-top: -200px; */
+  /* left: 0; */
+  /* bottom: 0; */
+/* position:absolute; */
+   			/* bottom:0; */
+   			/* width:100%; */
+   			/* height: 70px;    */
+   			/* background:#000000; */
+   			/* font-size:10px; */
+   			/* text-align: center; */
+   			/* color:#ffffff;   */
+}
+li a:link, a:visited {
+   display: block;
+   width: 100px;
+   font-weight: bold;
+   color: #FFFFFF;
+   background-color: #000000;
+   text-align: center;
+   padding: 0px;
+   text-decoration: none;
+   text-transform: uppercase;
+}
+
+li a:hover, a:active {
+ background-color: #1a1919;
+}
+/* For mobile phones: */
+[class*="col-"] {
+  width: 100%;
+}
+/* From w3schools */
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  .col-1 {width: 8.33%;}
+  .col-2 {width: 16.66%;}
+  .col-3 {width: 25%;}
+  .col-4 {width: 33.33%;}
+  .col-5 {width: 41.66%;}
+  .col-6 {width: 50%;}
+  .col-7 {width: 58.33%;}
+  .col-8 {width: 66.66%;}
+  .col-9 {width: 75%;}
+  .col-10 {width: 83.33%;}
+  .col-11 {width: 91.66%;}
+  .col-12 {width: 100%;}
+}
